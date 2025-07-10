@@ -16,11 +16,11 @@ void shit(HMODULE hModule) {
     }
     //printf("found gameassembly.dl;\n");
 
-    uint64_t set_fps_offset = game_assembly + 0x763CD60; // UnityEngine.Application.set_targetFrameRate
+    uint64_t set_fps_offset = game_assembly + 0x763D750; // UnityEngine.Application.set_targetFrameRate
     set_fps_t set_fps = (set_fps_t)(set_fps_offset);
     set_fps(240);
 
-    // prevent game setting fps limit again
+    // prevent game setting fps limit
     DWORD oldProtect;
     VirtualProtect(reinterpret_cast<LPVOID>(set_fps_offset), 1, PAGE_EXECUTE_READWRITE, &oldProtect);
     *reinterpret_cast<BYTE*>(set_fps_offset) = 0xC3; //old is 0x56
